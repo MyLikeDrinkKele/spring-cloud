@@ -26,8 +26,7 @@ public class HelloController {
     @Autowired
     private DiscoveryClient client;
 
-    //@RequestMapping(value = "hello", method = RequestMethod.GET)
-    @GetMapping
+    @GetMapping(value = "hello")
     public String hello() {
         List<ServiceInstance> instances = client.getInstances("eureka-client-provider");
         if (null != instances && instances.size() > 0) {
