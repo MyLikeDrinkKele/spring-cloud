@@ -1,10 +1,8 @@
 package com.tempus.service.impl;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.ribbon.hystrix.FallbackHandler;
 import com.tempus.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,13 +14,19 @@ import org.springframework.web.client.RestTemplate;
 public class HelloServiceImpl implements HelloService {
     @Autowired
     RestTemplate restTemplate;
+
     @HystrixCommand(fallbackMethod = "error")
     @Override
     public String getHello() {
         return restTemplate.getForEntity("http://eureka-client-provider/hello", String.class).getBody();
     }
 
-    public String error(){
+    /**
+     * 错误处理
+     *
+     * @return
+     */
+    public String error() {
         return "error";
     }
 }
